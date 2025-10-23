@@ -4,58 +4,66 @@
   <meta charset="UTF-8" />
   <title>Quadratic Solver & Grading System</title>
 
+  <!-- CSS Styling Section -->
   <style>
   body {
-    font-family: Algerian, Helvetica, sans-serif;
+    font-family: Algerian, Helvetica, sans-serif; /* Custom font with fallbacks */
     margin: 20px;
-    background-color: hwb(120 44% 22% / 0.719); /* Light green background */
+    background-color: hwb(120 44% 22% / 0.719); /* Light green background using HWB color model */
   }
 
-  h2 { color: #2c3e50; }
+  h2 { color: #2c3e50; } /* Dark blue heading color */
 
   .section {
     margin-bottom: 30px;
     padding: 15px;
     border: 1px solid #ccc;
     border-radius: 8px;
-    background-color: #ffffff; /* White background for sections */
+    background-color: #ffffff; /* White background for content boxes */
   }
 
-  label { display: block; margin-top: 10px; }
+  label {
+    display: block;
+    margin-top: 10px; /* Space between labels */
+  }
 
   input[type="number"] {
     width: 100px;
     padding: 5px;
-    margin-right: 10px;
+    margin-right: 10px; /* Input field styling */
   }
 
   button {
     margin-top: 10px;
-    padding: 8px 12px;
+    padding: 8px 12px; /* Button styling */
   }
 
   .result, .error {
     margin-top: 10px;
-    font-weight: bold;
+    font-weight: bold; /* Bold result and error messages */
   }
 
-  .error { color: red; }
+  .error { color: red; } /* Error messages in red */
 </style>
 
 </head>
 <body>
 
+  <!-- Page Title and Description -->
   <h1 style="font-family: 'Barlow condensed', serif;">Quadratic Equation Solver & Grade Calculator</h1>
   <p>Enter values below to solve a quadratic equation or convert a score to a grade.</p>
 
   <!-- Quadratic Solver Section -->
   <div class="section">
-   <i><h2>Quadratic Solver</h2></i>
+    <i><h2>Quadratic Solver</h2></i>
+    <!-- Input fields for coefficients a, b, and c -->
     <label>a: <input type="number" id="a" /></label>
     <label>b: <input type="number" id="b" /></label>
     <label>c: <input type="number" id="c" /></label>
+    <!-- Buttons to compute and reset the solver -->
     <button onclick="solveQuadratic()">Compute</button>
     <button onclick="resetQuadratic()">Reset</button>
+    <!-- Divs to display error or result messages -->
     <div id="quadError" class="error"></div>
     <div id="quadResult" class="result"></div>
   </div>
@@ -63,23 +71,32 @@
   <!-- Grading System Section -->
   <div class="section">
     <i><h2>Grading System</h2></i>
+    <!-- Input field for score -->
     <label>Score (0–100): <input type="number" id="score" /></label>
+    <!-- Buttons to compute and reset the grade -->
     <button onclick="computeGrade()">Compute</button>
     <button onclick="resetGrade()">Reset</button>
+    <!-- Divs to display error or result messages -->
     <div id="gradeError" class="error"></div>
     <div id="gradeResult" class="result"></div>
   </div>
 
+  <!-- JavaScript Logic Section -->
   <script>
+    // Function to solve the quadratic equation
     function solveQuadratic() {
+      // Get input values and convert to numbers
       const a = parseFloat(document.getElementById("a").value);
       const b = parseFloat(document.getElementById("b").value);
       const c = parseFloat(document.getElementById("c").value);
       const errorDiv = document.getElementById("quadError");
       const resultDiv = document.getElementById("quadResult");
+
+      // Clear previous messages
       errorDiv.textContent = "";
       resultDiv.textContent = "";
 
+      // Validate inputs
       if (isNaN(a) || isNaN(b) || isNaN(c)) {
         errorDiv.textContent = "Please enter valid numbers for a, b, and c.";
         return;
@@ -89,29 +106,36 @@
         return;
       }
 
+      // Calculate discriminant
       const D = b * b - 4 * a * c;
-      let nature = "";
-      let roots = "";
+      let nature = ""; // Description of root nature
+      let roots = "";  // Root values
 
+      // Determine root type and calculate accordingly
       if (D > 0) {
+        // Two distinct real roots
         const root1 = (-b + Math.sqrt(D)) / (2 * a);
         const root2 = (-b - Math.sqrt(D)) / (2 * a);
         nature = "Two distinct real roots";
         roots = `x₁ = ${root1.toFixed(3)}, x₂ = ${root2.toFixed(3)}`;
       } else if (D === 0) {
+        // One repeated real root
         const root = -b / (2 * a);
         nature = "One real repeated root";
         roots = `x = ${root.toFixed(3)}`;
       } else {
+        // Complex conjugate roots
         const realPart = (-b / (2 * a)).toFixed(3);
         const imagPart = (Math.sqrt(-D) / (2 * a)).toFixed(3);
         nature = "Two complex conjugate roots";
         roots = `x₁ = ${realPart} + ${imagPart}i, x₂ = ${realPart} - ${imagPart}i`;
       }
 
+      // Display result
       resultDiv.innerHTML = `Discriminant (D): ${D.toFixed(3)}<br>${nature}<br>${roots}`;
     }
 
+    // Function to reset quadratic inputs and messages
     function resetQuadratic() {
       document.getElementById("a").value = "";
       document.getElementById("b").value = "";
@@ -120,18 +144,23 @@
       document.getElementById("quadResult").textContent = "";
     }
 
+    // Function to compute grade based on score
     function computeGrade() {
       const score = parseInt(document.getElementById("score").value);
       const errorDiv = document.getElementById("gradeError");
       const resultDiv = document.getElementById("gradeResult");
+
+      // Clear previous messages
       errorDiv.textContent = "";
       resultDiv.textContent = "";
 
+      // Validate score input
       if (isNaN(score) || score < 0 || score > 100) {
         errorDiv.textContent = "Please enter a score between 0 and 100.";
         return;
       }
 
+      // Determine grade based on score range
       let grade = "";
       if (score >= 85) grade = "A+";
       else if (score >= 75) grade = "A";
@@ -141,9 +170,11 @@
       else if (score >= 50) grade = "C";
       else grade = "D";
 
+      // Display result
       resultDiv.textContent = `Score ${score} → Grade ${grade}`;
     }
 
+    // Function to reset grade input and messages
     function resetGrade() {
       document.getElementById("score").value = "";
       document.getElementById("gradeError").textContent = "";
@@ -152,4 +183,3 @@
   </script>
 </body>
 </html>
-
