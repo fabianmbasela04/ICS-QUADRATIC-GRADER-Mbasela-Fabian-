@@ -1,4 +1,4 @@
-# ICS-Quadratic-Grader -MULEBA MWASHI
+# ICS-Quadratic-Grader -Mbasela Fabian
 
 ## QUADRATIC EQUATION AND GRADE EVALUATION WEB APP.
 
@@ -23,3 +23,4 @@ This is a single-page web application built with HTML and JavaScript. It allows 
 • C+: 55–59 
 • C: 50–54 
 • D: 0–49
+
